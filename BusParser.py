@@ -43,64 +43,84 @@ for filename in z.namelist():
         #print(df)
 
 # Use the function with a URL
-bus_num = "201"
-
-#find routet.txt in filenames and index dfs
 route_df = dfs[filenames.index('routes.txt')]
-#print(type(route_df), route_df)
-bus_route_id = 201
-bus_direction_id = 0
+bus_route_id_201 = 201
+bus_route_id_19 = 19
+bus_route_id_7 = 7
+bus_route_id_301 = 301
+
 trip_df = dfs[filenames.index('trips.txt')]
-bus_trips = trip_df[trip_df['route_id'].isin([bus_route_id])]
-#print(bus_trips.head())
-filtered_trips = trip_df[(trip_df['route_id'] == bus_route_id) & (trip_df['direction_id'] == bus_direction_id)]
 
+# TODO combine 31 and 201 only have weekeday schedule
+
+#  ONLY HAVE WITH CORRECT SERVIE_ID
+filtered_trips_201W = trip_df[(trip_df['route_id'] == bus_route_id_201) & (trip_df['direction_id'] == 0)]
+filtered_trips_19S = trip_df[(trip_df['route_id'] == bus_route_id_19) & (trip_df['direction_id'] == 0)]
+filtered_trips_7S = trip_df[(trip_df['route_id'] == bus_route_id_7) & (trip_df['direction_id'] == 0)]
+filtered_trips_201E = trip_df[(trip_df['route_id'] == bus_route_id_201) & (trip_df['direction_id'] == 1)]
+filtered_trips_301S = trip_df[(trip_df['route_id'] == bus_route_id_301) & (trip_df['direction_id'] == 0)]
+filtered_trips_301N = trip_df[(trip_df['route_id'] == bus_route_id_301) & (trip_df['direction_id'] == 1)]
 #print(bus_trips.head())
+
 stop_times_df = dfs[filenames.index('stop_times.txt')]
-
 stops_df = dfs[filenames.index('stops.txt')]
 
 stop_name = 'Hazel / Columbia'
-stop_id = 2512
-stop_id2 = 2524
+stop_idN = 3623
+stop_idS = 1171
+stop_idE =  2512
+stop_idW = 2524
+stop_id7 = 1915 #2509 #4073
+stop_id301N = 6120
+stop_id301S = 6004
 
-#
+trip_ids_201W = filtered_trips_201W['trip_id']
+trid_ids_19S = filtered_trips_19S['trip_id']
+trip_ids_7S = filtered_trips_7S['trip_id']
+trip_ids_201E = filtered_trips_201E['trip_id']
+trip_ids_301N = filtered_trips_301N['trip_id']
+trip_ids_301S = filtered_trips_301S['trip_id']
 
-trip_ids = filtered_trips['trip_id']
 #print(type(trip_ids))
 # Filter the stop_times_df DataFrame based on trip_id
-filtered_stop_times = stop_times_df[stop_times_df['trip_id'].isin(trip_ids)]
-stop_ids = filtered_stop_times['stop_id']
-#print(type(stop_ids))
-
-#sprint(stop_ids)
-#filtered_stops = stops_df[stops_df['stop_id'].isin(stop_ids)]
-#print(filtered_stops)
-
-# Get the stop names
-#stop_names = filtered_stops['stop_name']
-
-# Print the stop names
-#print(stop_names)
+filtered_stop_times_201W = stop_times_df[stop_times_df['trip_id'].isin(trip_ids_201W)]
+filtered_stop_times_19S = stop_times_df[stop_times_df['trip_id'].isin(trid_ids_19S)]
+filtered_stop_times_7S = stop_times_df[stop_times_df['trip_id'].isin(trip_ids_7S)]
+filtered_stop_times_201E = stop_times_df[stop_times_df['trip_id'].isin(trip_ids_201E)]
+filtered_trips_301S = stop_times_df[stop_times_df['trip_id'].isin(trip_ids_301S)]
+filtered_trips_301N = stop_times_df[stop_times_df['trip_id'].isin(trip_ids_301N)]
 
 
-#filtered_stop_times.to_csv('filtered_stop_times.csv', index=False)
+stop_ids_201W = filtered_stop_times_201W['stop_id']
+stop_ids_19S = filtered_stop_times_19S['stop_id']
+stop_ids_7S = filtered_stop_times_7S['stop_id']
+stop_ids_201E = filtered_stop_times_201E['stop_id']
+stop_id301S = filtered_trips_301S['stop_id']
+stop_id301N = filtered_trips_301N['stop_id']
 
-
-filtered_stop_times = filtered_stop_times[filtered_stop_times['stop_id'] == stop_id2]
-
-now = datetime.datetime.now().time()
+filtered_stop_times_201W = filtered_stop_times_201W[filtered_stop_times_201W['stop_id'] == stop_idW]
+filtered_stop_times_19S = filtered_stop_times_19S[filtered_stop_times_19S['stop_id'] == stop_idS]
+filtered_stop_times_201E = filtered_stop_times_201E[filtered_stop_times_201E['stop_id'] == stop_idE]
+filtered_stop_times_7S = filtered_stop_times_7S[filtered_stop_times_7S['stop_id'] == stop_id7]
+filtered_trips_301S = filtered_trips_301S[filtered_trips_301S['stop_id'] == stop_id301S]
+filtered_trips_301N = filtered_trips_301N[filtered_trips_301N['stop_id'] == stop_id301N]
 
 #print(filtered_stop_times['arrival_time'])
-filtered_stop_times['arrival_time'].to_csv('arrival_times.csv', index=False)
+filtered_stop_times_201W.to_csv('stop_times_201W.csv', index=False)
 
-filtered_stop_times['arrival_time'] = filtered_stop_times['arrival_time'].str.replace('^24', '00')
-filtered_stop_times['arrival_time'] = pd.to_datetime(filtered_stop_times['arrival_time']).dt.time
+filtered_stop_times_201W['arrival_time'] = filtered_stop_times_201W['arrival_time'].str.replace('^24', '00')
+filtered_stop_times_201E['arrival_time'] = filtered_stop_times_201E['arrival_time'].str.replace('^24', '00')
+filtered_stop_times_19S['arrival_time'] = filtered_stop_times_19S['arrival_time'].str.replace('^24', '00')
+filtered_stop_times_7S['arrival_time'] = filtered_stop_times_7S['arrival_time'].str.replace('^24', '00')
+filtered_trips_301N['arrival_time'] = filtered_trips_301N['arrival_time'].str.replace('^24', '00')
+filtered_trips_301S['arrival_time'] = filtered_trips_301S['arrival_time'].str.replace('^24', '00')
 
-next_bus_time = filtered_stop_times[filtered_stop_times['arrival_time'] > now]['arrival_time'].min()
-time_difference = datetime.datetime.combine(datetime.date.today(), next_bus_time) - datetime.datetime.combine(datetime.date.today(), now)
-print(time_difference)
-
+filtered_stop_times_201W['arrival_time'] = pd.to_datetime(filtered_stop_times_201W['arrival_time']).dt.time
+filtered_stop_times_201E['arrival_time'] = pd.to_datetime(filtered_stop_times_201E['arrival_time']).dt.time
+filtered_stop_times_19S['arrival_time'] = pd.to_datetime(filtered_stop_times_19S['arrival_time']).dt.time
+filtered_stop_times_7S['arrival_time'] = pd.to_datetime(filtered_stop_times_7S['arrival_time']).dt.time
+filtered_trips_301S['arrival_time'] = pd.to_datetime(filtered_trips_301S['arrival_time']).dt.time
+filtered_trips_301N['arrival_time'] = pd.to_datetime(filtered_trips_301N['arrival_time']).dt.time
 
 class MyHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
@@ -108,21 +128,51 @@ class MyHandler(SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
-
             # Get dynamic data from Python
+            now = datetime.datetime.now().time()
+
+            next_bus_time_201W = filtered_stop_times_201W[filtered_stop_times_201W['arrival_time'] > now]['arrival_time'].min()
+            next_bus_time_19S = filtered_stop_times_19S[filtered_stop_times_19S['arrival_time'] > now]['arrival_time'].min()
+            next_bus_time_7S = filtered_stop_times_7S[filtered_stop_times_7S['arrival_time'] > now]['arrival_time'].min()
+
+            time_7S = datetime.datetime.combine(datetime.date.today(), next_bus_time_7S) - datetime.datetime.combine(datetime.date.today(), now)
+            time_201W = datetime.datetime.combine(datetime.date.today(), next_bus_time_201W) - datetime.datetime.combine(datetime.date.today(), now)
+            time_19S = datetime.datetime.combine(datetime.date.today(), next_bus_time_19S) - datetime.datetime.combine(datetime.date.today(), now)
             html_content = f"""
             <!DOCTYPE html>
             <html>
             <head>
                 <title>Next Bus</title>
+                <meta http-equiv="refresh" content="5">
             </head>
             <body>
-                <h1>Next Bus</h1>
-                <p>The next bus will arrive in: {time_difference}</p>
+                <div class="card" style="width: 90%; padding: 20px; border: 3px solid #000; border-radius: 3px; margin: 10px; display: flex; flex-direction: row; justify-content: space-between;align-items: center;">
+                <div class="left-text" stlye ="flex: 1;">
+                    <h2>201 - W</h2>
+                </div>
+                <div class="right-text" style="flex: 1; text-align: right;">
+                    <h3>{time_201W} mins</h3>
+                </div>
+                </div>
+                <div class="card" style="width: 90%; padding: 20px; border: 3px solid #000; border-radius: 3px; margin: 10px; display: flex; flex-direction: row; justify-content: space-between;align-items: center;">
+                <div class="left-text" stlye ="flex: 1;">
+                    <h2>19 - S</h2>
+                </div>
+                <div class="right-text" style="flex: 1; text-align: right;">
+                    <h3>{time_19S} mins</h3>
+                </div>
+                </div>
+                <div class="card" style="width: 90%; padding: 20px; border: 3px solid #000; border-radius: 3px; margin: 10px; display: flex; flex-direction: row; justify-content: space-between;align-items: center;">
+                <div class="left-text" stlye ="flex: 1;">
+                    <h2>7 - S</h2>
+                </div>
+                <div class="right-text" style="flex: 1; text-align: right;">
+                    <h3>{time_7S} mins</h3>
+                </div>
+                </div>
             </body>
             </html>
             """
-
             # Read and send the HTML file with dynamic data
             # with open('index.html', 'w') as f:
             #     f.write(html_content)
