@@ -32,9 +32,9 @@ from socketserver import TCPServer
 
 
     # Download the file
-#response = requests.get('https://www.regionofwaterloo.ca/opendatadownloads/GRT_GTFS.zip')
-#z = zipfile.ZipFile(BytesIO(response.content))
-z = zipfile.ZipFile('./GRT_GTFS.zip','r')
+response = requests.get('https://www.regionofwaterloo.ca/opendatadownloads/GRT_GTFS.zip')
+z = zipfile.ZipFile(BytesIO(response.content))
+#z = zipfile.ZipFile('./GRT_GTFS.zip','r')
 filenames = z.namelist()
 dfs = []
 # Extract and parse each CSV file in the zip file
@@ -121,7 +121,7 @@ filtered_trips_301S = filtered_trips_301S[filtered_trips_301S['stop_id'] == stop
 filtered_trips_301N = filtered_trips_301N[filtered_trips_301N['stop_id'] == stop_id301N]
 
 #print(filtered_stop_times['arrival_time'])
-filtered_stop_times_201W.to_csv('stop_times_201W.csv', index=False)
+#filtered_stop_times_201W.to_csv('stop_times_201W.csv', index=False)
 
 filtered_stop_times_201W['arrival_time'] = filtered_stop_times_201W['arrival_time'].str.replace('^24', '00')
 filtered_stop_times_201E['arrival_time'] = filtered_stop_times_201E['arrival_time'].str.replace('^24', '00')
