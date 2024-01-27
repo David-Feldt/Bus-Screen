@@ -216,11 +216,11 @@ class MyHandler(BaseHTTPRequestHandler):
         # else:
         #     return SimpleHTTPRequestHandler.do_GET(self)
 
-PORT = 8000
+# PORT = 8000
 
-with TCPServer(("", PORT), MyHandler) as httpd:
-    print(f"Serving on port {PORT}")
-    httpd.serve_forever()
+# with TCPServer(("", PORT), MyHandler) as httpd:
+#     print(f"Serving on port {PORT}")
+#     httpd.serve_forever()
 
 
 #filtered_df = stop_times_df[stop_times_df['stop_id'] == 1171]
