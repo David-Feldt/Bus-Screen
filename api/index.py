@@ -60,10 +60,10 @@ now = datetime.datetime.now()
 # Format the date as YYYYDDMM
 date_of_interest = int(now.strftime('%Y%m%d'))
 #date_of_interest = 20240126
-print("Date of interest",date_of_interest)
+#print("Date of interest",date_of_interest)
 filtered_calendar_dates = calendar_dates_df[calendar_dates_df['date'] == date_of_interest]
 service_ids = filtered_calendar_dates['service_id'].unique()
-print("Service id",service_ids)
+#print("Service id",service_ids)
 
 #  ONLY HAVE WITH CORRECT SERVIE_ID
 filtered_trips_201W = trip_df[((trip_df['route_id'] == bus_route_id_201) | (trip_df['route_id'] == bus_route_id_31)) & (trip_df['direction_id'] == 0) & (trip_df['service_id'].isin(service_ids))]
@@ -215,11 +215,11 @@ class MyHandler(BaseHTTPRequestHandler):
         # else:
         #     return SimpleHTTPRequestHandler.do_GET(self)
 
-PORT = 8000
+# PORT = 8000
 
-with TCPServer(("", PORT), MyHandler) as httpd:
-    print(f"Serving on port {PORT}")
-    httpd.serve_forever()
+# with TCPServer(("", PORT), MyHandler) as httpd:
+#     print(f"Serving on port {PORT}")
+#     httpd.serve_forever()
 
 
 #filtered_df = stop_times_df[stop_times_df['stop_id'] == 1171]
