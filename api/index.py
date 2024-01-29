@@ -134,7 +134,7 @@ filtered_stop_times_7S['arrival_time'] = pd.to_datetime(filtered_stop_times_7S['
 filtered_trips_301S['arrival_time'] = pd.to_datetime(filtered_trips_301S['arrival_time']).dt.time
 filtered_trips_301N['arrival_time'] = pd.to_datetime(filtered_trips_301N['arrival_time']).dt.time
 
-class MyHandler(BaseHTTPRequestHandler):
+class handler(BaseHTTPRequestHandler):
     def do_GET(self):
     #if self.path == '/':
         self.send_response(200)
