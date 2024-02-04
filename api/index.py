@@ -313,9 +313,9 @@ class handler(BaseHTTPRequestHandler):
 
 PORT = 8000
 
-with TCPServer(("", PORT), handler) as httpd:
-    print(f"Serving on port {PORT}")
-    httpd.serve_forever()
+# with TCPServer(("", PORT), handler) as httpd:
+#     print(f"Serving on port {PORT}")
+#     httpd.serve_forever()
 
 
 #filtered_df = stop_times_df[stop_times_df['stop_id'] == 1171]
