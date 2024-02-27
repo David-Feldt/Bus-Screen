@@ -134,7 +134,7 @@ def update_data():
 
 # Create a scheduler
 scheduler = BackgroundScheduler()
-scheduler.add_job(update_data, 'interval', hours=6)
+scheduler.add_job(update_data, 'interval', hours=1)
 scheduler.start()
 
 # Update the data immediately
