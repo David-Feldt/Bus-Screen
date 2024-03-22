@@ -1,4 +1,5 @@
 import datetime
+import pytz
 
 import requests
 import zipfile
@@ -41,7 +42,9 @@ def update_data():
     # TODO combine 31 and 201 only have weekeday schedule
 
     calendar_dates_df = dfs[filenames.index('calendar_dates.txt')]
-    now = datetime.datetime.now()
+    timezone = pytz.timezone('America/New_York')
+
+    now = datetime.datetime.now(timezone)
 
     # Format the date as YYYYDDMM
     date_of_interest = int(now.strftime('%Y%m%d'))
@@ -147,8 +150,9 @@ class handler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         # Get dynamic data from Python
-        now = datetime.datetime.now().time()
-        date =  datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timezone = pytz.timezone('America/New_York')
+        now = datetime.datetime.now(timezone).time()
+        date =  datetime.datetime.now(timezone).strftime("%Y-%m-%d %H:%M:%S")
         next_bus_time_201E = filtered_stop_times_201E[filtered_stop_times_201E['arrival_time'] > now]['arrival_time'].min()
         next_bus_time_19S = filtered_stop_times_19S[filtered_stop_times_19S['arrival_time'] > now]['arrival_time'].min()
         next_bus_time_7S = filtered_stop_times_7S[filtered_stop_times_7S['arrival_time'] > now]['arrival_time'].min()
@@ -315,9 +319,9 @@ class handler(BaseHTTPRequestHandler):
 
 PORT = 8000
 
-# with TCPServer(("", PORT), handler) as httpd:
-#     print(f"Serving on port {PORT}")
-#     httpd.serve_forever()
+with TCPServer(("", PORT), handler) as httpd:
+    print(f"Serving on port {PORT}")
+    httpd.serve_forever()
 
 
 #filtered_df = stop_times_df[stop_times_df['stop_id'] == 1171]
