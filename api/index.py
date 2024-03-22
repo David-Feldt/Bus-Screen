@@ -148,6 +148,7 @@ class handler(BaseHTTPRequestHandler):
         self.end_headers()
         # Get dynamic data from Python
         now = datetime.datetime.now().time()
+        date =  datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         next_bus_time_201E = filtered_stop_times_201E[filtered_stop_times_201E['arrival_time'] > now]['arrival_time'].min()
         next_bus_time_19S = filtered_stop_times_19S[filtered_stop_times_19S['arrival_time'] > now]['arrival_time'].min()
         next_bus_time_7S = filtered_stop_times_7S[filtered_stop_times_7S['arrival_time'] > now]['arrival_time'].min()
@@ -175,6 +176,7 @@ class handler(BaseHTTPRequestHandler):
         </head>
         <body>
             <div class="container">
+             <h3>{date}</h3>
     <!-- Bus 101 -->
     <div class="bus-row">
         <div class="bus-info">
