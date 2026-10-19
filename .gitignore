@@ -1,0 +1,10 @@
+# GTFS data is downloaded at runtime
+GRT_GTFS/
+GRT_GTFS.zip
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+.vercel/
+.DS_Store
